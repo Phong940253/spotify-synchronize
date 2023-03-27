@@ -61,7 +61,7 @@ def get_current_song():
         previous_song = current_song
 
         # set mood for skype
-        sk.setMood(mood="smile", text="Playing Spotify: " +
+        sk.setMood(mood="smile", text="Spotify: " +
                    song_name +
                    " by " +
                    ', '.join(artist_names))
