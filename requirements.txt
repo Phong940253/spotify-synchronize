@@ -1,0 +1,4 @@
+skpy
+spotipy
+python-dotenv
+schedule
