@@ -1,0 +1,9 @@
+set status skype API: https://edge.skype.com/profile/v2/users/self/profile/partial
+{
+	"payload": {
+		"mood": "(wait) In meetings",
+		"richMood": "<ss type="wait">(wait)</ss> In meetings"
+	}
+}
+
+{"status":{"code":20000,"text":"User profile updated"},"user":{"id":"live:phong940253","href":"/users/live:phong940253"}}
