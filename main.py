@@ -3,7 +3,8 @@ import time
 import os
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
-from skype import SkypeCustom as Skype
+from src.skype import SkypeCustom as Skype
+from src.mattermost import Mattermost
 from dotenv import load_dotenv
 
 # get .env
@@ -25,6 +26,13 @@ password = os.getenv('SKYPE_PASSWORD')
 sk = Skype()
 sk.conn.liveLogin(username, password)
 
+# set up for mattermost
+mattermost_server = os.getenv('MATTERMOST_SERVER')
+mattermost_username = os.getenv('MATTERMOST_USERNAME')
+mattermost_password = os.getenv('MATTERMOST_PASSWORD')
+mm = Mattermost(mattermost_server, mattermost_username, mattermost_password)
+mm.login()
+
 previous_song = None
 
 
@@ -40,6 +48,7 @@ def get_current_song():
         print("No song is currently playing.")
         if previous_song is not None:
             previous_song = None
+            mm.set_status("online", "", "")
             sk.setMood("")
             print("Mood set to empty")
     else:
@@ -61,6 +70,10 @@ def get_current_song():
         previous_song = current_song
 
         # set mood for skype
+        mm.set_status(
+            "online",
+            "spotify", f"Playing: {song_name} by " +
+            ', '.join(artist_names))
         sk.setMood(mood="smile", text="Spotify: " +
                    song_name +
                    " by " +

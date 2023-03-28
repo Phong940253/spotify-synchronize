@@ -22,3 +22,7 @@ class SkypeCustom(Skype):
                       },
                   })
         self.user.mood = SkypeUser.Mood(plain=mood) if mood else None
+
+
+if __name__ == "__main__":
+    pass
