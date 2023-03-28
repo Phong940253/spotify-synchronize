@@ -17,8 +17,8 @@ class SkypeCustom(Skype):
                   auth=SkypeConnection.Auth.SkypeToken,
                   json={
                       "payload": {
-                          "mood": f"({mood}) {text}",
-                          "richMood": f'<ss type="{mood}">({mood})</ss> {text}'
+                          "mood": f"({mood}) {text}" if mood else "",
+                          "richMood": f'<ss type="{mood}">({mood})</ss> {text}' if mood else ""
                       },
                   })
         self.user.mood = SkypeUser.Mood(plain=mood) if mood else None
