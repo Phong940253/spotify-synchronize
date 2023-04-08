@@ -48,7 +48,7 @@ def get_current_song():
         print("No song is currently playing.")
         if previous_song is not None:
             previous_song = None
-            mm.set_status("online", "", "")
+            mm.remove_status()
             sk.setMood("")
             print("Mood set to empty")
     else:
@@ -61,19 +61,15 @@ def get_current_song():
         artist_names = [artist["name"] for artist in artists]
         album_name = current_playback["item"]["album"]["name"]
 
-        # Print song information
-        # print(
-        # f"Currently playing: {song_name} by {', '.join(artist_names)} from
-        # the album {album_name}")
-
         # Set previous song to current song
         previous_song = current_song
 
-        # set mood for skype
+        # set status for mattermost
         mm.set_status(
             "online",
             "spotify", f"Playing: {song_name} by " +
             ', '.join(artist_names))
+        # set mood for skype
         sk.setMood(mood="smile", text="Spotify: " +
                    song_name +
                    " by " +

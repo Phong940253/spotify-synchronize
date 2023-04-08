@@ -22,7 +22,7 @@ class Mattermost:
 
     # method custom status set
 
-    def set_status(self, status, emoji, text):
+    def set_status(self, status, emoji, text, duration=""):
         resp = self.session.put(
             self.server +
             "/api/v4/users/me/status/custom",
@@ -30,6 +30,12 @@ class Mattermost:
                 "status": status,
                 "emoji": emoji,
                 "text": text})
+
+    # method delete custom status from recent status
+    def remove_status(self):
+        resp = self.session.delete(
+            self.server +
+            "/api/v4/users/me/status/custom")
 
 
 if __name__ == "__main__":
