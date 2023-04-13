@@ -6,6 +6,8 @@ from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 from src.skype import SkypeCustom as Skype
 from src.mattermost import Mattermost
 from dotenv import load_dotenv
+import platform
+my_os = platform.system()
 
 # get .env
 load_dotenv()
@@ -15,10 +17,14 @@ os.environ["SPOTIPY_CLIENT_SECRET"] = os.getenv('SPOTIPY_CLIENT_SECRET')
 
 # Set up authorization and initialize client
 scope = "user-read-playback-state"
+
+# capath exists on windows but not on linux
+
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
         scope=scope,
-        redirect_uri='http://localhost:8000/callback'))
+        redirect_uri='http://localhost:8000/callback', 
+        cache_path='/home/phong/entertainment/spotify-synchronize/cache.txt' if my_os == 'Linux' else 'cache.txt'))
 
 # set up for skype
 username = os.getenv('SKYPE_USERNAME')
@@ -79,6 +85,11 @@ def get_current_song():
 
 schedule.every(5).seconds.do(get_current_song)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+try:
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+except Exception as e:
+    print(e)
+    mm.remove_status()
+    sk.setMood("")

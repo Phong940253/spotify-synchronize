@@ -1,0 +1,11 @@
+[Unit]
+Description=Spotify synchnize
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/home/phong/anaconda3/envs/spotify/bin/python /home/phong/entertainment/spotify-synchronize/main.py
+
+[Install]
+WantedBy=multi-user.target
